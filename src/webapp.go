@@ -23,8 +23,9 @@ func GetTime(w http.ResponseWriter, r *http.Request) {
 	time := Time{
 		Now: time2.Now().String(),
 	}
-
+	
 	fmt.Println("Current Time: ", time)
+	log.Println("Current Time: ", time)
 
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(time)
@@ -59,7 +60,7 @@ func GetTimeZone(w http.ResponseWriter, r *http.Request){
 		Now: time2.Now().In(loc).String(),
 	}
 
-    fmt.Println("ZONE: ", loc, "Time: ", time)
+    log.Println("ZONE: ", loc, "Time: ", time)
 
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(time)
