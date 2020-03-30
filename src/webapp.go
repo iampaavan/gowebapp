@@ -14,7 +14,6 @@ type Time struct {
 	Now string `json:"time, omitempty"`
 }
 
-
 type TimeZone struct {
 	Now string `json:"time, omitempty"`
 }
@@ -35,18 +34,20 @@ func GetTime(w http.ResponseWriter, r *http.Request) {
 func GetTimeZone(w http.ResponseWriter, r *http.Request){
 	
 	keys, ok := r.URL.Query()["tz1"]
-
-	url_string := r.URL.Query()
-	fmt.Println(url_string)
-
-	value, exists := url_string["tz2"]
-	fmt.Printf("key exists in map: %t, value: %v \n", exists, value)
-
+	test := r.URL.Query()
 	
 	if !ok || len(keys[0]) < 1 {
         log.Println("Url Param 'tz1' is missing")
-        return
-    }
+	} else {
+		log.Println(keys[0])
+	}
+	
+	if test["tz2"][0] != ""{
+		log.Println(test["tz2"][0])
+	} else {
+		log.Println("tz2 is missing")
+	}
+
 	
 	tz1 := keys[0]
 	
