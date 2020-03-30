@@ -18,6 +18,14 @@ type TimeZone struct {
 	Now string `json:"time, omitempty"`
 }
 
+type Health struct {
+	health string `json:"Health, omitempty"`
+}
+
+type readiness struct {
+	ready string `json:"readiness, omitempty"`
+}
+
 func GetTime(w http.ResponseWriter, r *http.Request) {
 
 	time := Time{
@@ -65,9 +73,31 @@ func GetTimeZone(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(time)
 }
 
+func healthHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	check := Health{
+		health: "Sytem functioning normally",
+	}
+	w.WriteHeader(http.StatusOK)
+	log.Println(check)
+	fmt.Fprint(w, check)
+}
+
+func readinessHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	check := readiness{
+		ready: "Sytem Ready",
+	}
+	w.WriteHeader(http.StatusOK)
+	log.Println(check)
+	fmt.Fprint(w, check)
+}
+
 func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/", GetTime).Methods("GET")
 	router.HandleFunc("/time", GetTimeZone).Methods("GET")
+	router.HandleFunc("/health", healthHandler).Methods("GET")
+	router.HandleFunc("/readiness", readinessHandler).Methods("GET")
 	log.Fatal(http.ListenAndServe(":8086", router))
 }
