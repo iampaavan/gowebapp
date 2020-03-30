@@ -25,7 +25,7 @@ func GetTime(w http.ResponseWriter, r *http.Request) {
 		Now: time2.Now().String(),
 	}
 
-	fmt.Println("UserAgent %v", r.Header.Get("UserAgent"))
+	fmt.Println("Current Time: ", time)
 
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(time)
