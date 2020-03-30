@@ -14,6 +14,11 @@ type Time struct {
 	Now string `json:"time, omitempty"`
 }
 
+
+type TimeZone struct {
+	Now string `json:"time, omitempty"`
+}
+
 func GetTime(w http.ResponseWriter, r *http.Request) {
 	
 	time := Time{
@@ -29,23 +34,27 @@ func GetTime(w http.ResponseWriter, r *http.Request) {
 
 func GetTimeZone(w http.ResponseWriter, r *http.Request){
 	
-	keys, ok := r.URL.Query()["key"]
+	keys, ok := r.URL.Query()["tz1"]
 	
 	if !ok || len(keys[0]) < 1 {
         log.Println("Url Param 'key' is missing")
         return
     }
 	
-	key := keys[0]
+	tz1 := keys[0]
 	
-	log.Println("Url Param 'key' is: " + string(key))
+	log.Println("Url Param 'key' is: " + string(tz1))
 
-	loc, _ := time2.LoadLocation(key)
-    now := time2.Now().In(loc)
-    fmt.Println("ZONE : ", loc, " Time : ", now)
+	loc, _ := time2.LoadLocation(tz1)
+
+	time := TimeZone{
+		Now: time2.Now().In(loc).String(),
+	}
+
+    fmt.Println("ZONE: ", loc, "Time: ", time)
 
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(now)
+	json.NewEncoder(w).Encode(time)
 }
 
 func main(){
