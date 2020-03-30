@@ -35,11 +35,17 @@ func GetTime(w http.ResponseWriter, r *http.Request) {
 func GetTimeZone(w http.ResponseWriter, r *http.Request){
 	
 	keys, ok := r.URL.Query()["tz1"]
-	
+	test := r.URL.Query()
+
 	if !ok || len(keys[0]) < 1 {
         log.Println("Url Param 'tz1' is missing")
 	} else {
 		log.Println(keys[0])
+	}
+
+	strDict := test
+	for index, element := range strDict {
+		fmt.Println("Index :", index, " Element :", element)
 	}
 	
 	tz1 := keys[0]
