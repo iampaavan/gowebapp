@@ -2,7 +2,7 @@ pipeline
     {
         environment
         {
-            registry = Credentials("go_docker_registry")
+            registry = credentials("go_docker_registry")
             registryCredential = 'dockerhub'
         }
         agent any
