@@ -28,6 +28,8 @@ type readiness struct {
 
 func GetTime(w http.ResponseWriter, r *http.Request) {
 
+	w.Header().Set("Content-Type", "application/json")
+
 	time := Time{
 		Now: time2.Now().String(),
 	}
