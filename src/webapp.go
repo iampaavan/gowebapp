@@ -88,7 +88,7 @@ func healthHandler(w http.ResponseWriter, r *http.Request) {
 func readinessHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	check := readiness{
-		ready: "Sytem Ready",
+		ready: "All Sytems Ready",
 	}
 	w.WriteHeader(http.StatusOK)
 	log.Println(check)
