@@ -24,3 +24,7 @@ spec:
         backend:
           serviceName: go-webapp
           servicePort: 8086
+      - path: /time
+        backend:
+          serviceName: go-webapp
+          servicePort: 8086
