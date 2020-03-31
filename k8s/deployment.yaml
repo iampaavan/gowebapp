@@ -22,7 +22,7 @@ spec:
         - name: dockercreds
       containers:
         - name: go
-          image: hemalgadhiya/csye7374-advanced-cloud-go-webapp:latest
+          image: iampaavan/csye7374-advanced-cloud-go-webapp:latest
           imagePullPolicy: Always
           ports:
             - name: liveliness-port
