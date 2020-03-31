@@ -77,8 +77,9 @@ func GetTimeZone(w http.ResponseWriter, r *http.Request) {
 
 func healthHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
+	test := "\n System Functioning Normally"
 	check := Health{
-		health: "Sytem functioning normally",
+		health: test,
 	}
 	w.WriteHeader(http.StatusOK)
 	log.Println(check)
@@ -87,8 +88,9 @@ func healthHandler(w http.ResponseWriter, r *http.Request) {
 
 func readinessHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
+	test := "\n All Systems Ready"
 	check := readiness{
-		ready: "All Sytems Ready",
+		ready: test,
 	}
 	w.WriteHeader(http.StatusOK)
 	log.Println(check)
