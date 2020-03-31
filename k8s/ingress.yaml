@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-go-webapp
+  namespace: go
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: hgadhiya.me
+    http:
+      paths:
+      - path: /go
+        backend:
+          serviceName: go-webapp
+          servicePort: 8086
