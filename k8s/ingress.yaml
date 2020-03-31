@@ -5,13 +5,22 @@ metadata:
   namespace: go
   annotations:
     kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/rewrite-target: /
+#    nginx.ingress.kubernetes.io/use-regex: "true"
+#    nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   rules:
   - host: hgadhiya.me
     http:
       paths:
-      - path: /go
+      - path: /
+        backend:
+          serviceName: go-webapp
+          servicePort: 8086
+      - path: /health
+        backend:
+          serviceName: go-webapp
+          servicePort: 8086
+      - path: /readiness
         backend:
           serviceName: go-webapp
           servicePort: 8086
