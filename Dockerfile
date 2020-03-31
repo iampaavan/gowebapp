@@ -10,5 +10,6 @@ RUN go build -o main ./src
 FROM alpine:3.7
 WORKDIR /usr/bin
 COPY --from=build /app .
+RUN ls /usr/share
 EXPOSE 8086
 CMD ["main"]
