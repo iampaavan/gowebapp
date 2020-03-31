@@ -5,6 +5,7 @@ COPY go.sum .
 RUN go mod download
 COPY . /app
 RUN apk add --no-cache tzdata
+RUN ls /usr/share
 RUN go build -o main ./src
 FROM alpine:3.7
 WORKDIR /usr/bin
