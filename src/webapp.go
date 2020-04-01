@@ -11,11 +11,15 @@ import (
 )
 
 type Time struct {
-	Now string `json:"time, omitempty"`
+	Now string `json:"LocalTime, omitempty"`
 }
 
-type TimeZone struct {
-	Now string `json:"time, omitempty"`
+type TimeZone1 struct {
+	Now string `json:"time1, omitempty"`
+}
+
+type TimeZone2 struct {
+	Now string `json:"time2, omitempty"`
 }
 
 type Health struct {
@@ -45,34 +49,50 @@ func GetTime(w http.ResponseWriter, r *http.Request) {
 func GetTimeZone(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
-	keys, ok := r.URL.Query()["tz1"]
 	test := r.URL.Query()
 
-	if !ok || len(keys[0]) < 1 {
-		log.Println("Url Param 'tz1' is missing")
+	if test != nil {
+		strDict := test
+		for index, element := range strDict {
+			fmt.Println("Index :", index, " Element :", element)
+		}
+
+			if test["tz1"] != nil{
+			loc, _ := time2.LoadLocation(test["tz1"][0])
+			time1 := TimeZone1{
+				Now: time2.Now().In(loc).String(),
+			}
+			log.Println("Url Param 'tz1' is: " + string(test["tz1"][0]))
+			log.Println("ZONE: ", loc, "Time: ", time1)
+			w.WriteHeader(http.StatusOK)
+			json.NewEncoder(w).Encode(time1)
+		} else {
+			output := "Error"
+			w.WriteHeader(http.StatusNotFound)
+			json.NewEncoder(w).Encode(output)
+		}
+		
+			if test["tz2"] != nil{
+			loc1, _ := time2.LoadLocation(test["tz2"][0])
+			time2 := TimeZone2{
+				Now: time2.Now().In(loc1).String(),
+			}
+			log.Println("Url Param 'tz2' is: " + string(test["tz2"][0]))
+			log.Println("ZONE: ", loc1, "Time: ", time2)
+			w.WriteHeader(http.StatusOK)
+			json.NewEncoder(w).Encode(time2)
+		} else {
+			output := "No TimeZone2 parameter passed in the Query"
+			w.WriteHeader(http.StatusNotFound)
+			json.NewEncoder(w).Encode(output)
+		}
+
 	} else {
-		log.Println(keys[0])
+		output := "Unknown Error"
+		w.WriteHeader(http.StatusNotFound)
+		json.NewEncoder(w).Encode(output)
 	}
 
-	strDict := test
-	for index, element := range strDict {
-		fmt.Println("Index :", index, " Element :", element)
-	}
-
-	tz1 := keys[0]
-
-	log.Println("Url Param 'tz1' is: " + string(tz1))
-
-	loc, _ := time2.LoadLocation(tz1)
-
-	time := TimeZone{
-		Now: time2.Now().In(loc).String(),
-	}
-
-	log.Println("ZONE: ", loc, "Time: ", time)
-
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(time)
 }
 
 func healthHandler(w http.ResponseWriter, r *http.Request) {
