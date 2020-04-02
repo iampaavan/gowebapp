@@ -57,30 +57,44 @@ func GetTimeZone(w http.ResponseWriter, r *http.Request) {
 			fmt.Println("Index :", index, " Element :", element)
 		}
 
-			if test["tz1"] != nil{
-			loc, _ := time2.LoadLocation(test["tz1"][0])
-			time1 := TimeZone1{
-				Now: time2.Now().In(loc).String(),
+		if test["tz1"] != nil {
+			loc, err := time2.LoadLocation(test["tz1"][0])
+			if err != nil {
+				log.Println(err)
+				output := "Not a valid timezone"
+				w.WriteHeader(http.StatusNotFound)
+				json.NewEncoder(w).Encode(output)
+			} else {
+				time1 := TimeZone1{
+					Now: time2.Now().In(loc).String(),
+				}
+				log.Println("Url Param 'tz1' is: " + string(test["tz1"][0]))
+				log.Println("ZONE: ", loc, "Time: ", time1)
+				w.WriteHeader(http.StatusOK)
+				json.NewEncoder(w).Encode(time1)
 			}
-			log.Println("Url Param 'tz1' is: " + string(test["tz1"][0]))
-			log.Println("ZONE: ", loc, "Time: ", time1)
-			w.WriteHeader(http.StatusOK)
-			json.NewEncoder(w).Encode(time1)
 		} else {
 			output := "Error"
 			w.WriteHeader(http.StatusNotFound)
 			json.NewEncoder(w).Encode(output)
 		}
-		
-			if test["tz2"] != nil{
-			loc1, _ := time2.LoadLocation(test["tz2"][0])
-			time2 := TimeZone2{
-				Now: time2.Now().In(loc1).String(),
+
+		if test["tz2"] != nil {
+			loc1, err := time2.LoadLocation(test["tz2"][0])
+			if err != nil {
+				log.Println(err)
+				output := "Not a valid timezone"
+				w.WriteHeader(http.StatusNotFound)
+				json.NewEncoder(w).Encode(output)
+			} else {
+				time2 := TimeZone2{
+					Now: time2.Now().In(loc1).String(),
+				}
+				log.Println("Url Param 'tz2' is: " + string(test["tz2"][0]))
+				log.Println("ZONE: ", loc1, "Time: ", time2)
+				w.WriteHeader(http.StatusOK)
+				json.NewEncoder(w).Encode(time2)
 			}
-			log.Println("Url Param 'tz2' is: " + string(test["tz2"][0]))
-			log.Println("ZONE: ", loc1, "Time: ", time2)
-			w.WriteHeader(http.StatusOK)
-			json.NewEncoder(w).Encode(time2)
 		} else {
 			output := "No TimeZone2 parameter passed in the Query"
 			w.WriteHeader(http.StatusNotFound)
