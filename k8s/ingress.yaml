@@ -1,0 +1,30 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-go-webapp
+  namespace: go
+  annotations:
+    kubernetes.io/ingress.class: nginx
+#    nginx.ingress.kubernetes.io/use-regex: "true"
+#    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  rules:
+  - host: go.paavangopala.me
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: go-webapp
+          servicePort: 8086
+      - path: /health
+        backend:
+          serviceName: go-webapp
+          servicePort: 8086
+      - path: /readiness
+        backend:
+          serviceName: go-webapp
+          servicePort: 8086
+      - path: /time
+        backend:
+          serviceName: go-webapp
+          servicePort: 8086

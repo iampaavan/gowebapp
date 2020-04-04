@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-webapp
+  namespace: go
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: go-webapp
+  template:
+    metadata:
+      labels:
+        app: go-webapp
+    spec:
+      imagePullSecrets:
+        - name: dockercreds
+      containers:
+        - name: go
+          image: iampaavan/csye7374-advanced-cloud-go-webapp:latest
+          imagePullPolicy: Always
+          ports:
+            - name: liveliness-port
+              containerPort: 8086
+              hostPort: 8086
+          resources:
+            limits:
+              memory: "100Mi"
+              cpu: "100m"
+            requests:
+              memory: "50Mi"
+              cpu: "50m"
