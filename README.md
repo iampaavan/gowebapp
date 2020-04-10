@@ -9,7 +9,7 @@ git clone https://github.com/udhos/update-golang
 cd update-golang
 sudo ./update-golang.sh
 
-Updated:
+Updated : 
 
 1) Bring up your kubernetes cluster
 2) Make sure the latest go-webapp image is pushed to DockerHub via Jenkins CI\CD pipeline
